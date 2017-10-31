@@ -42,18 +42,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                try {
-                    URL a = new URL("https://www.wired.com/story/iphone-x-camera-and-faceid-test/");
-
-                    ExtractArticle extractArticle = new ExtractArticle();
-
-                    extractArticle.execute(a);
-
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
 
             }
         });
@@ -83,41 +71,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class ExtractArticle extends AsyncTask<URL, Integer, Long> {
-        protected Long doInBackground(URL... urls) {
-            int count = urls.length;
-
-
-            me.angrybyte.goose.Configuration conf = new me.angrybyte.goose.Configuration(getApplicationContext().getCacheDir().toString());
-            ContentExtractor extractor = new ContentExtractor(conf);
-
-            Article article = extractor.extractContent(urls[0].toString(),true );
-            if (article == null) {
-                Log.e(TAG, "Couldn't load the article, is your URL correct, is your Internet working?");
-                return (long)1;
-            }
-
-
-            String details = article.getCleanedArticleText();
-            if (details == null) {
-                Log.w(TAG, "Couldn't load the article text, the page is messy. Trying with page description...");
-                details = article.getMetaDescription();
-            }
-            Log.e("Article", details);
-
-
-
-
-            return (long)0;
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
-
-        }
-
-        protected void onPostExecute(Long result) {
-
-        }
-    }
 
 }
